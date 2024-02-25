@@ -1,0 +1,156 @@
+﻿@page "/calculator"
+
+<!-- Page Title -->
+<h1 style="color: #4CAF50; font-family: Arial, sans-serif; font-weight: bold;">Blazor Calculator</h1>
+<hr style="border-color: #4CAF50;" />
+
+<!-- Calculator Form -->
+<div style="margin-top: 20px;">
+    <!-- First Number Input -->
+    <div class="row">
+        <div class="col-md-3">
+            <label style="font-weight: bold;">Enter First Number</label>
+        </div>
+        <div class="col-md-4">
+            <input placeholder="Enter First Number" @bind="@firstNumber" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <!-- Second Number Input -->
+    <div class="row">
+        <div class="col-md-3">
+            <label style="font-weight: bold;">Enter Second Number</label>
+        </div>
+        <div class="col-md-4">
+            <input placeholder="Enter Second Number" @bind="@secondNumber" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <!-- Result Display -->
+    <div class="row">
+        <div class="col-md-3">
+            <label style="font-weight: bold;">Result</label>
+        </div>
+        <div class="col-md-4">
+            <input readonly @bind="@result" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <!-- Calculator Buttons -->
+    <div class="row">
+        <!-- Add Button -->
+        <div class="col-md-2">
+            <button @onclick="Add" class="btn btn-outline-success">Add (+)</button>
+        </div>
+        <!-- Subtract Button -->
+        <div class="col-md-2">
+            <button @onclick="Subtract" class="btn btn-outline-primary">Subtract (−)</button>
+        </div>
+        <!-- Multiply Button -->
+        <div class="col-md-2">
+            <button @onclick="Multiply" class="btn btn-outline-info">Multiply (X)</button>
+        </div>
+        <!-- Divide Button -->
+        <div class="col-md-2">
+            <button @onclick="Divide" class="btn btn-outline-danger">Divide (/)</button>
+        </div>
+        <!-- Clear Button -->
+        <div class="col-md-2">
+            <button @onclick="Clear" class="btn btn-outline-secondary">Clear All</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Variables to store user input and result
+    string firstNumber;
+    string secondNumber;
+    string result;
+    private void ShowError(string message)
+    {
+        Application.Current.MainPage.DisplayAlert("Error", message, "OK");
+    }
+
+    // Function to add two numbers
+    void Add()
+    {
+        try
+        {
+            double num1 = Convert.ToDouble(firstNumber);
+            double num2 = Convert.ToDouble(secondNumber);
+            result = (num1 + num2).ToString();
+        }
+        catch (FormatException)
+        {
+            ShowError("Please enter valid numbers.");
+            return;
+        }
+    }
+
+    // Function to subtract two numbers
+    void Subtract()
+    {
+        try
+        {
+            double num1 = Convert.ToDouble(firstNumber);
+            double num2 = Convert.ToDouble(secondNumber);
+            result = (num1 - num2).ToString();
+        }
+        catch (FormatException)
+        {
+            ShowError("Please enter valid numbers.");
+            return;
+        }
+    }
+
+    // Function to multiply two numbers
+    void Multiply()
+    {
+        try
+        {
+            double num1 = Convert.ToDouble(firstNumber);
+            double num2 = Convert.ToDouble(secondNumber);
+            result = (num1 * num2).ToString();
+        }
+        catch (FormatException)
+        {
+            ShowError("Please enter valid numbers.");
+            return;
+        }
+    }
+
+    // Function to divide two numbers
+    void Divide()
+    {
+        try
+        {
+            double num1 = Convert.ToDouble(firstNumber);
+            double num2 = Convert.ToDouble(secondNumber);
+
+            if (num2 == 0)
+            {
+                throw new DivideByZeroException();
+            }
+
+            result = (num1 / num2).ToString();
+        }
+        catch (FormatException)
+        {
+            ShowError("Please enter valid numbers.");
+            return;
+        }
+        catch (DivideByZeroException)
+        {
+            ShowError("Error: Cannot divide by zero.");
+            return;
+        }
+    }
+
+    // Function to clear all fields
+    void Clear()
+    {
+        firstNumber = "";
+        secondNumber = "";
+        result = "";
+    }
+}
